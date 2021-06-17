@@ -1,4 +1,4 @@
-FROM node:14.17.1
+FROM node:14.17.1 as buildEnv
 
 WORKDIR /app
 
@@ -10,4 +10,14 @@ COPY . .
 
 RUN npm run build
 
-ENTRYPOINT node dist/src/main.js
+FROM node:14.17.1-alpine
+
+WORKDIR /app
+
+COPY --from=buildEnv /app/package* .
+
+RUN npm i --prod
+
+COPY --from=buildEnv /app/dist dist
+
+ENTRYPOINT node .

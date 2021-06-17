@@ -8,7 +8,7 @@ export class AppController {
     return {
       data: {
         app: packageInfo.name,
-        version: packageInfo.version,
+        version: `v${packageInfo.version}`,
       },
     };
   }
